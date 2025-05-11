@@ -1,0 +1,70 @@
+Problem (naive_ddp_benchmarking): 3 points
+
+Model: small
+Avg step time: 208.718 ms
+Avg comm time: 46.831 ms
+Comm overhead: 22.44%
+
+Model: medium
+Avg step time: 603.682 ms
+Avg comm time: 154.539 ms
+Comm overhead: 25.60%
+
+Model: large
+Avg step time: 1299.292 ms
+Avg comm time: 351.660 ms
+Comm overhead: 27.07%
+
+
+Problem (minimal_ddp_flat_benchmarking): 1 point
+
+Model: small
+Avg step time: 203.416 ms
+Avg comm time: 41.370 ms
+Comm overhead: 20.34%
+
+Model: medium
+Avg step time: 583.968 ms
+Avg comm time: 132.522 ms
+Comm overhead: 22.69%
+
+Problem (ddp_overlap_individual_parameters_benchmarking): 3 points
+
+without overlap
+0/1497.948 ms = 0% percent overlap (rank 0)
+
+Model: small
+Avg step time without overlap: 130.252 ms
+
+Model: medium
+Avg step time without overlap: 357.249 ms
+
+Model: large
+Avg step time without overlap: 726.519 ms
+
+Model: xl
+Avg step time without overlap: 1487.732 ms
+
+
+With overlap
+507.492 / 1247.212ms  = 40.69% overlap (rank 0)
+
+Model: small
+Avg step time with overlap: 115.791 ms
+
+Model: medium
+Avg step time with overlap: 310.363 ms
+
+Model: large
+Avg step time with overlap: 642.579 ms
+
+Model: xl
+Avg step time with overlap: 1248.920 ms
+
+Table:
+Model Size	Step Time Without Overlap	Step Time With Overlap	    Speedup (%)
+     small	       130.252 ms	               115.791 ms	      ~11.1% faster
+    medium	       357.249 ms	               310.363 ms	      ~13.1% faster
+     large	       726.519 ms	               642.579 ms	      ~11.5% faster
+        xl	      1487.732 ms	              1248.920 ms	      ~16.0% faster
+

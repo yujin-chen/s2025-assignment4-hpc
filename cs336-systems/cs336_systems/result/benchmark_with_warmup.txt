@@ -1,0 +1,21 @@
+ L40 GPU. With warmup
+ 
+ small forward     :   23.40 ± 2.25 ms
+ small fwd+bwd     :   67.22 ± 2.62 ms
+ small backward    :   43.82 ms
+
+medium forward     :   77.12 ± 1.51 ms
+medium fwd+bwd     :  207.82 ± 3.88 ms
+medium backward    :  130.70 ms
+
+ large forward     :  180.25 ± 6.62 ms
+ large fwd+bwd     :  474.50 ± 9.27 ms
+ large backward    :  294.25 ms
+
+    xl forward     :  369.21 ± 8.32 ms
+    xl fwd+bwd     :  942.56 ± 1.64 ms
+    xl backward    :  573.35 ms
+
+  2.7B forward     :  548.49 ± 6.79 ms
+  2.7B fwd+bwd     : 1412.06 ± 4.88 ms
+  2.7B backward    :  863.57 ms

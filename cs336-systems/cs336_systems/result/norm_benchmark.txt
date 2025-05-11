@@ -1,0 +1,199 @@
+Problem (pytorch_layernorm) (A) (H100)
+=== RMSNorm vs LayerNorm Timing (ms) ===
+  Hidden dim | RMSNorm (ms) | LayerNorm (ms)
+        1024 |       0.8512 |         0.2521
+        2048 |       1.6710 |         0.4680
+        4096 |       3.3034 |         1.2277
+        8192 |       6.5506 |         2.5860
+
+
+Problem (pytorch_layernorm) (B) (H100)
+
+ small forward pass (rms): 18.16 ms
+medium forward pass (rms): 59.94 ms
+ large forward pass (rms): 125.15 ms
+    xl forward pass (rms): 241.50 ms
+  2.7B forward pass (rms): 358.33 ms
+
+ small forward pass (layer): 17.70 ms
+medium forward pass (layer): 55.44 ms
+ large forward pass (layer): 120.98 ms
+    xl forward pass (layer): 242.87 ms
+  2.7B forward pass (layer): 355.88 ms
+
+Problem (rmsnorm_forward_benchmarking) (A) (H100)
+=== RMSNorm vs LayerNorm vs Triton RMSNorm Timing (ms) ===
+  Hidden dim | RMSNorm (ms) | LayerNorm (ms) | Triton RMS (ms)
+        1024 |       0.8512 |         0.2526 |          0.4546
+        2048 |       1.6711 |         0.4678 |          0.4586
+        4096 |       3.3025 |         1.2266 |          0.9016
+        8192 |       6.5495 |         2.5865 |          1.7820
+
+
+Problem (rmsnorm_forward_benchmarking) (B) (H100)
+small forward pass (rms): 20.40 ms
+medium forward pass (rms): 59.68 ms
+ large forward pass (rms): 125.48 ms
+    xl forward pass (rms): 241.53 ms
+  2.7B forward pass (rms): 357.14 ms
+
+ small forward pass (layer): 17.75 ms
+medium forward pass (layer): 55.06 ms
+ large forward pass (layer): 120.92 ms
+    xl forward pass (layer): 240.62 ms
+  2.7B forward pass (layer): 354.72 ms
+
+ small forward pass (rms_triton): 20.13 ms
+medium forward pass (rms_triton): 55.04 ms
+ large forward pass (rms_triton): 122.16 ms
+    xl forward pass (rms_triton): 242.48 ms
+  2.7B forward pass (rms_triton): 355.44 ms
+
+Problem (rmsnorm_benchmarking) (A) (H100)
+
+=== RMSNorm vs LayerNorm vs Triton RMSNorm Timing (FORWARD + BACKWARD, ms) ===
+  Hidden dim | RMSNorm (ms) | LayerNorm (ms) | Triton RMS (ms)
+        1024 |       4.0253 |         1.3038 |          1.0870
+        2048 |       6.9077 |         2.2411 |          1.8594
+        4096 |      13.6690 |         4.3327 |          3.4278
+        8192 |      27.1517 |         9.0805 |          6.6509
+
+Problem (rmsnorm_benchmarking) (B) (H100)
+
+small forward+backward (rms): 51.87 ms
+medium forward+backward (rms): 165.38 ms
+ large forward+backward (rms): 344.93 ms
+    xl forward+backward (rms): 688.08 ms
+  2.7B forward+backward (rms): 1082.60 ms
+
+
+ small forward+backward (layer): 49.52 ms
+medium forward+backward (layer): 160.97 ms
+ large forward+backward (layer): 335.44 ms
+    xl forward+backward (layer): 678.39 ms
+  2.7B forward+backward (layer): 1075.51 ms
+
+ small forward+backward (rms_triton): 49.70 ms
+medium forward+backward (rms_triton): 160.89 ms
+ large forward+backward (rms_triton): 333.88 ms
+    xl forward+backward (rms_triton): 674.13 ms
+  2.7B forward+backward (rms_triton): 1073.23 ms
+
+
+
+Problem (torch_compile) (A) (H100)
+
+  === RMSNorm vs LayerNorm vs Triton RMSNorm Timing (FORWARD ONLY, ms) ===
+  Hidden dim | RMSNorm (ms) | LayerNorm (ms) | Triton RMS (ms)
+        1024 |       0.8502 |         0.2524 |          0.2276
+        2048 |       1.6691 |         0.4694 |          0.4489
+        4096 |       3.3006 |         1.2430 |          0.8913
+        8192 |       6.5468 |         2.5857 |          1.7699
+
+Problem (torch_compile) (B) (H100)
+=== RMSNorm vs LayerNorm vs Triton RMSNorm Timing (FORWARD + BACKWARD, ms) ===
+  Hidden dim | RMSNorm (ms) | LayerNorm (ms) | Triton RMS (ms)
+        1024 |       3.9237 |         1.2978 |          0.8305
+        2048 |       6.9093 |         2.2492 |          1.5890
+        4096 |      13.6693 |         4.3324 |          3.1188
+        8192 |      27.1611 |         9.0834 |          6.1899
+
+
+Problem (torch_compile) (C) (H100)
+
+ small         forward (vanilla rms): 17.79 ms
+medium         forward (vanilla rms): 54.01 ms
+ large         forward (vanilla rms): 110.38 ms
+    xl         forward (vanilla rms): 226.63 ms
+  2.7B         forward (vanilla rms): 359.13 ms
+
+ small         forward (compiled rms): 13.92 ms
+medium         forward (compiled rms): 45.61 ms
+ large         forward (compiled rms): 96.70 ms
+    xl         forward (compiled rms): 202.58 ms
+  2.7B         forward (compiled rms): 330.52 ms
+
+ small forward+backward (vanilla rms): 51.84 ms
+medium forward+backward (vanilla rms): 164.38 ms
+ large forward+backward (vanilla rms): 342.85 ms
+    xl forward+backward (vanilla rms): 688.53 ms
+  2.7B forward+backward (vanilla rms): 1079.52 ms
+
+ small forward+backward (compiled rms): 41.34 ms
+medium forward+backward (compiled rms): 137.13 ms
+ large forward+backward (compiled rms): 293.82 ms
+    xl forward+backward (compiled rms): 604.53 ms
+  2.7B forward+backward (compiled rms): 999.14 ms
+
+
+
+Problem (memory_profiling) (A) (Use H100): 8 points
+Peak memory during 2.7B_rms_vanilla_forwardonly: 46.47 GB
+Memory profiling done. Snapshot saved as /home/yujin31/s2025-assignment4-hpc/cs336-systems/cs336_systems/result/2.7B_rms_vanilla_forwardonly_full_train_Falsesnapshot.pickle
+
+Peak memory during 2.7B_rms_vanilla_fulltraining: 47.63 GB
+Memory profiling done. Snapshot saved as /home/yujin31/s2025-assignment4-hpc/cs336-systems/cs336_systems/result/2.7B_rms_vanilla_fulltraining_full_train_Truesnapshot.pickle
+
+
+
+Problem (memory_profiling) (B) (Use H100): 
+
+Model Size | Peak Memory (Forward Only) | Peak Memory (Full Training Step)
+small      | 4.80 GB                    | 27.95 GB
+medium     | 12.67 GB                   | 9.46 GB
+large      | 24.12 GB                   | 19.14 GB
+xl         | 41.19 GB                   | 34.97 GB
+2.7B       | 46.38 GB                   | 47.91 GB
+
+
+Problem (memory_profiling) (C) (Use H100): 
+Peak memory during 2.7B forward only: 42.36 GB
+Peak memory during 2.7B full training: 47.59 GB
+
+
+Problem (memory_profiling) (E) (Use H100): 
+2703 Addr: b'14cc40000000_0, Size: 80.0MiB (83886080 bytes) allocation, Total memory used after allocation: 46.3GiB (49720266756 bytes), timestamp Sat Apr 26 2025 15:54:09 GMT-1000 (Hawaii-Aleutian Standard Time)
+CUDACachingAllocator.cpp:0:c10::cuda::CUDACachingAllocator::Native::DeviceCachingAllocator::malloc(int, unsigned long, CUstream_st*)
+:0:c10::cuda::CUDACachingAllocator::Native::NativeCachingAllocator::allocate(unsigned long) const
+:0:at::TensorBase at::detail::_empty_generic<long>(c10::ArrayRef<long>, c10::Allocator*, c10::DispatchKeySet, c10::ScalarType, std::optional<c10::MemoryFormat>)
+??:0:at::detail::empty_generic(c10::ArrayRef<long>, c10::Allocator*, c10::DispatchKeySet, c10::ScalarType, std::optional<c10::MemoryFormat>)
+??:0:at::detail::empty_cuda(c10::ArrayRef<long>, c10::ScalarType, std::optional<c10::Device>, std::optional<c10::MemoryFormat>)
+??:0:at::detail::empty_cuda(c10::ArrayRef<long>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, std::optional<c10::MemoryFormat>)
+??:0:at::detail::empty_cuda(c10::ArrayRef<long>, c10::TensorOptions const&)
+RegisterCUDA.cpp:0:at::(anonymous namespace)::create_out(c10::ArrayRef<long>, c10::ArrayRef<long>, c10::TensorOptions const&)
+RegisterCUDA.cpp:0:at::(anonymous namespace)::structured_ufunc_add_CUDA_functional::set_output_raw_strided(long, c10::ArrayRef<long>, c10::ArrayRef<long>, c10::TensorOptions, c10::ArrayRef<at::Dimname>)
+??:0:at::TensorIteratorBase::allocate_or_resize_outputs()
+??:0:at::TensorIteratorBase::build(at::TensorIteratorConfig&)
+??:0:at::TensorIteratorBase::build_borrowing_binary_op(at::TensorBase const&, at::TensorBase const&, at::TensorBase const&)
+??:0:at::meta::structured_add_Tensor::meta(at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+RegisterCUDA.cpp:0:at::(anonymous namespace)::wrapper_CUDA_add_Tensor(at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+RegisterCUDA.cpp:0:c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (at::Tensor const&, at::Tensor const&, c10::Scalar const&), &at::(anonymous namespace)::wrapper_CUDA_add_Tensor>, at::Tensor, c10::guts::typelist::typelist<at::Tensor const&, at::Tensor const&, c10::Scalar const&> >, at::Tensor (at::Tensor const&, at::Tensor const&, c10::Scalar const&)>::call(c10::OperatorKernel*, c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+??:0:at::_ops::add_Tensor::redispatch(c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+VariableType_2.cpp:0:torch::autograd::VariableType::(anonymous namespace)::add_Tensor(c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+VariableType_2.cpp:0:c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::Scalar const&), &torch::autograd::VariableType::(anonymous namespace)::add_Tensor>, at::Tensor, c10::guts::typelist::typelist<c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::Scalar const&> >, at::Tensor (c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::Scalar const&)>::call(c10::OperatorKernel*, c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+??:0:at::Tensor c10::Dispatcher::callWithDispatchKeySlowPath<at::Tensor, at::Tensor const&, at::Tensor const&, c10::Scalar const&>(c10::TypedOperatorHandle<at::Tensor (at::Tensor const&, at::Tensor const&, c10::Scalar const&)> const&, at::StepCallbacks&, c10::DispatchKeySet, c10::KernelFunction const&, at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+??:0:at::_ops::add_Tensor::call(at::Tensor const&, at::Tensor const&, c10::Scalar const&)
+python_variable_methods.cpp:0:torch::autograd::THPVariable_add(_object*, _object*, _object*)
+python_variable_methods.cpp:0:_object* torch::autograd::TypeError_to_NotImplemented_<&torch::autograd::THPVariable_add>(_object*, _object*, _object*)
+/usr/local/src/conda/python-3.10.16/Objects/descrobject.c:344:method_vectorcall_VARARGS_KEYWORDS
+/usr/local/src/conda/python-3.10.16/Objects/typeobject.c:7282:slot_nb_add
+/usr/local/src/conda/python-3.10.16/Objects/abstract.c:899:binary_op1
+/home/yujin31/s2025-assignment4-hpc/cs336-basics/cs336_basics/model.py:536:gelu
+/home/yujin31/s2025-assignment4-hpc/cs336-basics/cs336_basics/model.py:373:forward
+/home/yujin31/.conda/envs/cs336_alignment/lib/python3.10/site-packages/torch/nn/modules/module.py:1520:_call_impl
+/home/yujin31/.conda/envs/cs336_alignment/lib/python3.10/site-packages/torch/nn/modules/module.py:1511:_wrapped_call_impl
+/home/yujin31/s2025-assignment4-hpc/cs336-basics/cs336_basics/model.py:358:forward
+/usr/local/src/conda/python-3.10.16/Objects/typeobject.c:7494:slot_tp_call
+/home/yujin31/.conda/envs/cs336_alignment/lib/python3.10/site-packages/torch/nn/modules/module.py:1520:_call_impl
+/home/yujin31/.conda/envs/cs336_alignment/lib/python3.10/site-packages/torch/nn/modules/module.py:1511:_wrapped_call_impl
+/home/yujin31/s2025-assignment4-hpc/cs336-basics/cs336_basics/model.py:199:forward
+/usr/local/src/conda/python-3.10.16/Objects/typeobject.c:7494:slot_tp_call
+/home/yujin31/.conda/envs/cs336_alignment/lib/python3.10/site-packages/torch/nn/modules/module.py:1520:_call_impl
+/home/yujin31/.conda/envs/cs336_alignment/lib/python3.10/site-packages/torch/nn/modules/module.py:1511:_wrapped_call_impl
+/home/yujin31/s2025-assignment4-hpc/cs336-systems/cs336_systems/norm_benchmark.py:185:run_memory_profile
+/usr/local/src/conda/python-3.10.16/Objects/typeobject.c:7494:slot_tp_call
+/home/yujin31/s2025-assignment4-hpc/cs336-systems/cs336_systems/norm_benchmark.py:129:benchmark_different_model_size
+/home/yujin31/s2025-assignment4-hpc/cs336-systems/cs336_systems/norm_benchmark.py:254:<m
+
+
+

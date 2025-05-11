@@ -10,26 +10,28 @@ from typing import Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from pathlib import Path
+import sys
+from common import CS336_BASIC_PATH, CS336_SYSTEMS_PATH
+sys.path.insert(0, str(CS336_SYSTEMS_PATH))
+from cs336_systems.triton_rmsnorm import  RMSNormTritonFunction
 
 from .nn_utils import softmax
 
 logger = logging.getLogger(__name__)
 
 
+class RMSNormTriton(nn.Module):
+    def __init__(self, dim: int, eps: float = 1e-8):
+        super().__init__()
+        self.weight = nn.Parameter(torch.ones(dim))
+        self.eps = eps
+
+    def forward(self, x):
+        return RMSNormTritonFunction.apply(x, self.weight, self.eps)
+
+
 class RMSNorm(nn.Module):
-    """
-    This module implements root mean square layer normalization, as
-    described in Eq. 4 of https://arxiv.org/abs/1910.07467
-
-    Args:
-        hidden_size: int
-            Dimensionality of the input to normalize.
-        eps: float, default is 1e-5
-            A value added to the denominator for numerical stability.
-
-    Returns:
-        FloatTensor of same shape as input.
-    """
 
     def __init__(
         self,
@@ -41,14 +43,7 @@ class RMSNorm(nn.Module):
         self.eps = eps
 
     def forward(self, x):
-        """
-        Args:
-            x: FloatTensor of shape `(batch_size, *)`.
-                The input to apply root mean square layer normalization on.
 
-        Returns:
-            FloatTensor of same shape as input
-        """
         rms = torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps)
         x = x * rms
         return self.weight * x
@@ -94,6 +89,7 @@ class BasicsTransformerLM(nn.Module):
         d_ff: int,
         attn_pdrop: Optional[float] = None,
         residual_pdrop: Optional[float] = None,
+        norm_type: str = "rms", 
     ):
         # Store the model configuration for serialization / deserialization
         self.config = {
@@ -114,11 +110,21 @@ class BasicsTransformerLM(nn.Module):
                     d_ff=d_ff,
                     attn_pdrop=attn_pdrop,
                     residual_pdrop=residual_pdrop,
+                    norm_type=norm_type,
                 )
                 for _ in range(num_layers)
             ]
         )
-        self.ln_final = RMSNorm(d_model)
+        if norm_type == "rms":
+            self.ln_final = RMSNorm(d_model)
+        elif norm_type == "rms_triton":
+            self.ln_final = RMSNormTriton(d_model)
+        elif norm_type == "layer":
+            self.ln_final = nn.LayerNorm(d_model)
+        else:
+            raise ValueError(f"Unknown norm_type: {norm_type}")
+
+
         self.lm_head = nn.Linear(d_model, vocab_size, bias=False)
         # Tie the weights, since the paper mentions that "we share the same weight
         # matrix between the two embedding layers and the pre-softmax linear transformation"
@@ -287,6 +293,7 @@ class TransformerBlock(nn.Module):
         d_ff: int,
         attn_pdrop: Optional[float] = None,
         residual_pdrop: Optional[float] = None,
+        norm_type: str = "rms",
     ):
         super().__init__()
         self.attn = CausalMultiHeadSelfAttention(
@@ -294,9 +301,20 @@ class TransformerBlock(nn.Module):
             num_heads=num_heads,
             attn_pdrop=attn_pdrop,
         )
-        self.ln1 = RMSNorm(d_model)
+
+        if norm_type == "rms":
+            self.ln1 = RMSNorm(d_model)
+            self.ln2 = RMSNorm(d_model)
+        elif norm_type == "rms_triton":
+            self.ln1 = RMSNormTriton(d_model)
+            self.ln2 = RMSNormTriton(d_model)
+        elif norm_type == "layer":
+            self.ln1 = nn.LayerNorm(d_model)
+            self.ln2 = nn.LayerNorm(d_model)
+        else:
+            raise ValueError(f"Unknown norm_type: {norm_type}")
+
         self.ffn = FFN(d_model=d_model, d_ff=d_ff)
-        self.ln2 = RMSNorm(d_model)
         self.residual_pdrop = residual_pdrop
 
     def forward(self, x: torch.Tensor):

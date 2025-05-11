@@ -1,0 +1,43 @@
+=== Forward-only full precision (no backward, no mixed) ===
+ small forward     :  17.24 ± 0.03 ms
+medium forward     :  54.34 ± 0.14 ms
+ large forward     : 110.93 ± 0.99 ms
+    xl forward     : 224.71 ± 6.82 ms
+  2.7B forward     : 357.96 ± 7.51 ms
+
+=== Forward + backward full precision ===
+ small fwd+bwd     :  52.79 ± 0.05 ms
+medium fwd+bwd     : 165.14 ± 3.70 ms
+ large fwd+bwd     : 346.72 ± 4.36 ms
+    xl fwd+bwd     : 691.44 ± 4.94 ms
+  2.7B fwd+bwd     : 1092.79 ± 0.84 ms
+
+=== Backward-only full precision ===
+small backward     :  35.55 ms
+medium backward    : 110.80 ms
+large backward     : 235.79 ms
+xl backward        : 466.73 ms
+2.7B backward      : 734.83 ms
+
+
+=== Forward-only mixed precision ===
+ small forward (MP):   8.00 ± 0.04 ms
+medium forward (MP):  17.41 ± 0.16 ms
+ large forward (MP):  32.55 ± 0.21 ms
+    xl forward (MP):  55.72 ± 0.32 ms
+  2.7B forward (MP):  73.59 ± 1.11 ms
+
+=== Forward + backward mixed precision ===
+ small fwd+bwd (MP):  22.54 ± 1.28 ms
+medium fwd+bwd (MP):  53.80 ± 2.58 ms
+ large fwd+bwd (MP):  98.37 ± 0.19 ms
+    xl fwd+bwd (MP): 173.10 ± 0.08 ms
+  2.7B fwd+bwd (MP): 225.00 ± 0.50 ms
+
+=== Backward-only mixed precision ===
+small backward     :  14.54 ms
+medium backward    :  36.39 ms
+large backward     :  65.82 ms
+xl backward        : 117.38 ms
+2.7B backward      : 151.41 ms
+

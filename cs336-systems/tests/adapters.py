@@ -3,6 +3,9 @@ from __future__ import annotations
 
 from typing import Type
 
+from cs336_systems.triton_rmsnorm import RMSNormAutogradFunction, RMSNormTritonFunction
+from cs336_systems.rmsnorm_grad import compute_rmsnorm_grad_g, compute_rmsnorm_grad_x
+from cs336_systems.ddp_overlap_individual_parameters import DDPIndividualParameters
 import torch
 
 
@@ -16,8 +19,7 @@ def get_rmsnorm_autograd_function_pytorch() -> Type:
         A class object (not an instance of the class)
     """
     # For example: return MyRMSNormAutogradFunctionClass
-    raise NotImplementedError
-
+    return RMSNormAutogradFunction
 
 def get_rmsnorm_autograd_function_triton() -> Type:
     """
@@ -32,7 +34,7 @@ def get_rmsnorm_autograd_function_triton() -> Type:
         A class object (not an instance of the class)
     """
     # For example: return MyTritonRMSNormAutogradFunctionClass
-    raise NotImplementedError
+    return RMSNormTritonFunction
 
 
 def rmsnorm_backward_g_pytorch(
@@ -53,7 +55,7 @@ def rmsnorm_backward_g_pytorch(
     Returns:
         Gradient of the loss with respect to g. Shape: (H,)
     """
-    raise NotImplementedError
+    return compute_rmsnorm_grad_g(grad_output, x, g)
 
 
 def rmsnorm_backward_x_pytorch(
@@ -74,7 +76,7 @@ def rmsnorm_backward_x_pytorch(
     Returns:
         Gradient of the loss with respect to x. Shape: (*, H)
     """
-    raise NotImplementedError
+    return compute_rmsnorm_grad_x(grad_output, x, g)
 
 
 def get_ddp_individual_parameters(module: torch.nn.Module) -> torch.nn.Module:
@@ -95,7 +97,8 @@ def get_ddp_individual_parameters(module: torch.nn.Module) -> torch.nn.Module:
         Instance of a DDP class.
     """
     # For example: return DDPIndividualParameters(module)
-    raise NotImplementedError
+    return DDPIndividualParameters(module)
+
 
 
 def ddp_individual_parameters_on_after_backward(
@@ -112,7 +115,7 @@ def ddp_individual_parameters_on_after_backward(
             Optimizer being used with the DDP-wrapped model.
     """
     # For example: ddp_model.finish_gradient_synchronization()
-    raise NotImplementedError
+    ddp_model.finish_gradient_synchronization()
 
 
 def get_ddp_bucketed(module: torch.nn.Module, bucket_size_mb: float) -> torch.nn.Module:

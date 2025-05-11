@@ -1,0 +1,117 @@
+Sorted by CPU time:
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                          backward_pass        38.95%     454.033ms        38.96%     454.054ms     454.054ms       0.000us         0.00%       1.000us       1.000us             1  
+                                       cudaLaunchKernel        32.05%     373.500ms        32.05%     373.500ms      72.146us      36.565ms         5.10%      36.565ms       7.063us          5177  
+      autograd::engine::evaluate_function: MulBackward0         0.24%       2.740ms        13.44%     156.664ms     540.221us       0.000us         0.00%      25.467ms      87.817us           290  
+                                              aten::mul         0.92%      10.749ms         9.75%     113.642ms      80.483us      39.116ms         5.46%      45.746ms      32.398us          1412  
+                                  cudaDeviceSynchronize         9.72%     113.272ms         9.72%     113.272ms      56.636ms       0.000us         0.00%       0.000us       0.000us             2  
+                                           forward_pass         1.19%      13.846ms         9.57%     111.488ms     111.488ms       0.000us         0.00%     277.622ms     277.622ms             1  
+                                           MulBackward0         0.09%       1.066ms         6.38%      74.305ms     256.224us       0.000us         0.00%      16.852ms      58.110us           290  
+                                             aten::add_         0.16%       1.881ms         6.01%      70.079ms      90.776us      10.513ms         1.47%      10.975ms      14.216us           772  
+                                               aten::mm         1.88%      21.937ms         4.94%      57.549ms      66.377us     524.368ms        73.16%     562.667ms     648.982us           867  
+       autograd::engine::evaluate_function: MmBackward0         0.14%       1.657ms         4.56%      53.110ms     183.772us       0.000us         0.00%     366.569ms       1.268ms           289  
+                                            MmBackward0         0.24%       2.756ms         4.39%      51.195ms     177.145us       0.000us         0.00%     359.960ms       1.246ms           289  
+                                         optimizer_step         0.03%     292.000us         4.33%      50.488ms      50.488ms       0.000us         0.00%      69.811ms      69.811ms             1  
+                              Optimizer.step#AdamW.step         0.47%       5.514ms         4.27%      49.749ms      49.749ms       0.000us         0.00%      69.811ms      69.811ms             1  
+                                              aten::sum         0.47%       5.533ms         3.50%      40.816ms     120.047us       5.736ms         0.80%       7.550ms      22.206us           340  
+                                              aten::bmm         0.47%       5.527ms         3.24%      37.783ms     131.191us      12.482ms         1.74%      16.653ms      57.823us           288  
+      autograd::engine::evaluate_function: ErfBackward0         0.03%     307.000us         3.15%      36.729ms     765.188us       0.000us         0.00%      16.055ms     334.479us            48  
+                                              aten::div         0.41%       4.783ms         3.15%      36.677ms      76.093us      15.341ms         2.14%      20.810ms      43.174us           482  
+                                           ErfBackward0         0.04%     496.000us         3.12%      36.422ms     758.792us       0.000us         0.00%      16.055ms     334.479us            48  
+                                    cudaLaunchKernelExC         3.11%      36.303ms         3.11%      36.303ms      35.908us       8.310ms         1.16%       8.930ms       8.833us          1011  
+                                              aten::neg         0.07%     843.000us         2.98%      34.675ms     240.799us       5.145ms         0.72%       5.206ms      36.153us           144  
+                                           aten::matmul         0.20%       2.285ms         2.88%      33.577ms      87.213us       0.000us         0.00%     211.855ms     550.273us           385  
+    autograd::engine::evaluate_function: RsqrtBackward0         0.04%     469.000us         2.81%      32.783ms     337.969us       0.000us         0.00%     745.000us       7.680us            97  
+                                         RsqrtBackward0         0.06%     719.000us         2.77%      32.314ms     333.134us       0.000us         0.00%     745.000us       7.680us            97  
+      autograd::engine::evaluate_function: BmmBackward0         0.06%     670.000us         2.35%      27.440ms     285.833us       0.000us         0.00%       8.434ms      87.854us            96  
+                                           BmmBackward0         0.06%     728.000us         2.29%      26.735ms     278.490us       0.000us         0.00%       8.339ms      86.865us            96  
+      autograd::engine::evaluate_function: DivBackward0         0.03%     380.000us         2.06%      24.046ms     166.986us       0.000us         0.00%      14.851ms     103.132us           144  
+                                          aten::reshape         0.22%       2.602ms         1.99%      23.179ms      15.042us       0.000us         0.00%      12.554ms       8.147us          1541  
+                                            aten::clone         0.20%       2.289ms         1.91%      22.222ms      46.104us       0.000us         0.00%      17.190ms      35.664us           482  
+                                             cudaMalloc         1.85%      21.518ms         1.85%      21.518ms     117.585us       3.649ms         0.51%       4.123ms      22.530us           183  
+                                           DivBackward0         0.10%       1.162ms         1.77%      20.592ms     143.000us       0.000us         0.00%      13.501ms      93.757us           144  
+      autograd::engine::evaluate_function: PowBackward0         0.08%     935.000us         1.73%      20.192ms     208.165us       0.000us         0.00%       5.751ms      59.289us            97  
+                                              aten::pow         0.30%       3.473ms         1.62%      18.928ms      55.835us       3.558ms         0.50%       7.866ms      23.204us           339  
+                                            aten::copy_         0.34%       3.944ms         1.62%      18.913ms      30.164us      11.558ms         1.61%      19.138ms      30.523us           627  
+      autograd::engine::evaluate_function: MaxBackward0        -0.01%    -156.000us         1.62%      18.863ms     392.979us       0.000us         0.00%       2.378ms      49.542us            48  
+                                            aten::rsqrt         0.06%     756.000us         1.59%      18.545ms     191.186us      98.000us         0.01%       3.095ms      31.907us            97  
+                                           aten::linear         0.19%       2.231ms         1.40%      16.266ms      56.284us       0.000us         0.00%     175.368ms     606.810us           289  
+     autograd::engine::evaluate_function: ViewBackward0         0.12%       1.363ms         1.40%      16.264ms      30.745us       0.000us         0.00%       3.948ms       7.463us           529  
+                                           PowBackward0         0.00%      58.000us         1.34%      15.669ms     161.536us       0.000us         0.00%       3.898ms      40.186us            97  
+      autograd::engine::evaluate_function: SumBackward1         0.03%     313.000us         1.29%      15.080ms     314.167us       0.000us         0.00%       1.302ms      27.125us            48  
+                                          ViewBackward0         0.11%       1.286ms         1.13%      13.187ms      24.928us       0.000us         0.00%       2.694ms       5.093us           529  
+                                        cudaMemsetAsync         0.99%      11.486ms         0.99%      11.486ms      26.405us       1.363ms         0.19%       1.363ms       3.133us           435  
+     autograd::engine::evaluate_function: MeanBackward1         0.03%     317.000us         0.95%      11.124ms     114.680us       0.000us         0.00%       1.006ms      10.371us            97  
+                                          MeanBackward1         0.03%     380.000us         0.92%      10.752ms     110.845us       0.000us         0.00%     986.000us      10.165us            97  
+                                           MaxBackward0         0.04%     507.000us         0.79%       9.208ms     191.833us       0.000us         0.00%     645.000us      13.438us            48  
+               aten::value_selecting_reduction_backward         0.04%     452.000us         0.78%       9.085ms     189.271us       0.000us         0.00%     714.000us      14.875us            48  
+                                      aten::masked_fill         0.05%     588.000us         0.76%       8.873ms      92.427us       0.000us         0.00%       8.181ms      85.219us            96  
+                                    aten::_foreach_sqrt         0.07%     785.000us         0.76%       8.816ms       8.816ms       7.326ms         1.02%       7.326ms       7.326ms             1  
+                                aten::_foreach_addcmul_         0.04%     409.000us         0.69%       8.071ms       8.071ms      10.320ms         1.44%      10.320ms      10.320ms             1  
+                                    aten::_foreach_mul_         0.06%     702.000us         0.68%       7.913ms       3.957ms      14.329ms         2.00%      14.329ms       7.165ms             2  
+                                         aten::scatter_         0.06%     650.000us         0.67%       7.855ms     163.646us     288.000us         0.04%     288.000us       6.000us            48  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 1.166s
+Self CUDA time total: 716.720ms
+
+
+Sorted by CUDA time:
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                               aten::mm         1.88%      21.937ms         4.94%      57.549ms      66.377us     524.368ms        73.16%     562.667ms     648.982us           867  
+       autograd::engine::evaluate_function: MmBackward0         0.14%       1.657ms         4.56%      53.110ms     183.772us       0.000us         0.00%     366.569ms       1.268ms           289  
+                                            MmBackward0         0.24%       2.756ms         4.39%      51.195ms     177.145us       0.000us         0.00%     359.960ms       1.246ms           289  
+                                           forward_pass         1.19%      13.846ms         9.57%     111.488ms     111.488ms       0.000us         0.00%     277.622ms     277.622ms             1  
+                                           aten::matmul         0.20%       2.285ms         2.88%      33.577ms      87.213us       0.000us         0.00%     211.855ms     550.273us           385  
+                                           aten::linear         0.19%       2.231ms         1.40%      16.266ms      56.284us       0.000us         0.00%     175.368ms     606.810us           289  
+sm80_xmma_gemm_f32f32_f32f32_f32_tn_n_tilesize128x12...         0.00%       0.000us         0.00%       0.000us       0.000us     116.723ms        16.29%     116.723ms       1.203ms            97  
+                                         optimizer_step         0.03%     292.000us         4.33%      50.488ms      50.488ms       0.000us         0.00%      69.811ms      69.811ms             1  
+                              Optimizer.step#AdamW.step         0.47%       5.514ms         4.27%      49.749ms      49.749ms       0.000us         0.00%      69.811ms      69.811ms             1  
+sm80_xmma_gemm_f32f32_f32f32_f32_nt_n_tilesize64x64x...         0.00%       0.000us         0.00%       0.000us       0.000us      65.229ms         9.10%      65.229ms     226.490us           288  
+sm80_xmma_gemm_f32f32_f32f32_f32_tn_n_tilesize256x12...         0.00%       0.000us         0.00%       0.000us       0.000us      59.369ms         8.28%      59.369ms     309.214us           192  
+sm80_xmma_gemm_f32f32_f32f32_f32_nn_n_tilesize128x12...         0.00%       0.000us         0.00%       0.000us       0.000us      58.821ms         8.21%      58.821ms       1.200ms            49  
+void cutlass::Kernel<cutlass_80_simt_sgemm_256x128_8...         0.00%       0.000us         0.00%       0.000us       0.000us      58.362ms         8.14%      58.362ms       1.216ms            48  
+sm80_xmma_gemm_f32f32_f32f32_f32_nn_n_tilesize256x12...         0.00%       0.000us         0.00%       0.000us       0.000us      57.860ms         8.07%      57.860ms     301.354us           192  
+void cutlass::Kernel<cutlass_80_simt_sgemm_128x256_8...         0.00%       0.000us         0.00%       0.000us       0.000us      56.066ms         7.82%      56.066ms       1.168ms            48  
+void cutlass::Kernel<cutlass_80_simt_sgemm_256x128_8...         0.00%       0.000us         0.00%       0.000us       0.000us      53.574ms         7.47%      53.574ms       1.116ms            48  
+                                              aten::mul         0.92%      10.749ms         9.75%     113.642ms      80.483us      39.116ms         5.46%      45.746ms      32.398us          1412  
+                                       cudaLaunchKernel        32.05%     373.500ms        32.05%     373.500ms      72.146us      36.565ms         5.10%      36.565ms       7.063us          5177  
+      autograd::engine::evaluate_function: MulBackward0         0.24%       2.740ms        13.44%     156.664ms     540.221us       0.000us         0.00%      25.467ms      87.817us           290  
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us      25.116ms         3.50%      25.116ms      37.154us           676  
+                                  cudaFuncGetAttributes         0.16%       1.807ms         0.16%       1.807ms       1.787us      21.856ms         3.05%      21.856ms      21.618us          1011  
+                                              aten::div         0.41%       4.783ms         3.15%      36.677ms      76.093us      15.341ms         2.14%      20.810ms      43.174us           482  
+                                            aten::copy_         0.34%       3.944ms         1.62%      18.913ms      30.164us      11.558ms         1.61%      19.138ms      30.523us           627  
+                                            aten::clone         0.20%       2.289ms         1.91%      22.222ms      46.104us       0.000us         0.00%      17.190ms      35.664us           482  
+                                           MulBackward0         0.09%       1.066ms         6.38%      74.305ms     256.224us       0.000us         0.00%      16.852ms      58.110us           290  
+                                              aten::bmm         0.47%       5.527ms         3.24%      37.783ms     131.191us      12.482ms         1.74%      16.653ms      57.823us           288  
+      autograd::engine::evaluate_function: ErfBackward0         0.03%     307.000us         3.15%      36.729ms     765.188us       0.000us         0.00%      16.055ms     334.479us            48  
+                                           ErfBackward0         0.04%     496.000us         3.12%      36.422ms     758.792us       0.000us         0.00%      16.055ms     334.479us            48  
+      autograd::engine::evaluate_function: DivBackward0         0.03%     380.000us         2.06%      24.046ms     166.986us       0.000us         0.00%      14.851ms     103.132us           144  
+                                    aten::_foreach_mul_         0.06%     702.000us         0.68%       7.913ms       3.957ms      14.329ms         2.00%      14.329ms       7.165ms             2  
+void at::native::(anonymous namespace)::multi_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      14.329ms         2.00%      14.329ms      98.144us           146  
+                                           DivBackward0         0.10%       1.162ms         1.77%      20.592ms     143.000us       0.000us         0.00%      13.501ms      93.757us           144  
+                                aten::_foreach_addcdiv_         0.04%     411.000us         0.51%       5.952ms       5.952ms      13.175ms         1.84%      13.175ms      13.175ms             1  
+void at::native::(anonymous namespace)::multi_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      13.175ms         1.84%      13.175ms     180.479us            73  
+                                          aten::reshape         0.22%       2.602ms         1.99%      23.179ms      15.042us       0.000us         0.00%      12.554ms       8.147us          1541  
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us      11.413ms         1.59%      11.413ms      23.678us           482  
+                                             aten::add_         0.16%       1.881ms         6.01%      70.079ms      90.776us      10.513ms         1.47%      10.975ms      14.216us           772  
+                                aten::_foreach_addcmul_         0.04%     409.000us         0.69%       8.071ms       8.071ms      10.320ms         1.44%      10.320ms      10.320ms             1  
+void at::native::(anonymous namespace)::multi_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      10.320ms         1.44%      10.320ms     141.370us            73  
+                                   aten::_foreach_lerp_         0.02%     180.000us         0.03%     343.000us     343.000us      10.272ms         1.43%      10.272ms      10.272ms             1  
+void at::native::(anonymous namespace)::multi_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      10.272ms         1.43%      10.272ms     140.712us            73  
+                                              aten::add         0.26%       3.087ms         0.60%       6.966ms      23.938us       5.050ms         0.70%       9.775ms      33.591us           291  
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us       8.962ms         1.25%       8.962ms      26.515us           338  
+                                    cudaLaunchKernelExC         3.11%      36.303ms         3.11%      36.303ms      35.908us       8.310ms         1.16%       8.930ms       8.833us          1011  
+      autograd::engine::evaluate_function: BmmBackward0         0.06%     670.000us         2.35%      27.440ms     285.833us       0.000us         0.00%       8.434ms      87.854us            96  
+                                           BmmBackward0         0.06%     728.000us         2.29%      26.735ms     278.490us       0.000us         0.00%       8.339ms      86.865us            96  
+                                   cudaFuncSetAttribute         0.00%      23.000us         0.00%      23.000us       0.025us       8.252ms         1.15%       8.252ms       9.048us           912  
+                                      aten::masked_fill         0.05%     588.000us         0.76%       8.873ms      92.427us       0.000us         0.00%       8.181ms      85.219us            96  
+                                              aten::pow         0.30%       3.473ms         1.62%      18.928ms      55.835us       3.558ms         0.50%       7.866ms      23.204us           339  
+void at::native::elementwise_kernel<128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us       7.716ms         1.08%       7.716ms      19.990us           386  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 1.166s
+Self CUDA time total: 716.720ms
+
